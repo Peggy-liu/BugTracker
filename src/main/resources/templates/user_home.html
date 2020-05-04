@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>home</title>
+</head>
+<body>
+	<h1>User Portal</h1>
+	<h3>
+		welcome home <span th:text="${username}"></span>
+	</h3>
+	<nav>
+		<a th:href="@{/user/create}" >Create new ticket</a> <br/>
+		<a th:href="@{/user/view}">View existing tickets</a> <br/>
+		<a th:href="@{/user/view_Solved}" >View solved tickets</a> <br/>
+		
+	</nav>
+	<div th:replace="fragment/general.html::logout"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Add new ticket</title>
+</head>
+<body>
+<h1>Create new ticket</h1>
+
+<form th:action="@{/user/transfer}" method="post">
+Issue title: <input type = "text" name = "title"><br/>
+<fieldset>
+<legend>Programming language: </legend>
+C#<input type="checkbox" name = "language" value = "C#"><br/>
+Java<input type="checkbox" name = "language" value = "Java"><br/>
+C++<input type="checkbox" name = "language" value = "C++"><br/>
+Python<input type="checkbox" name = "language" value = "Python"><br/>
+JavaScript<input type="checkbox" name = "language" value = "JavaScript"><br/>
+</fieldset>
+<fieldset>
+<legend>Description</legend>
+<textarea name="description" rows="20" cols="50"></textarea>
+</fieldset>
+<input type="submit" value="create">
+ </form>
+
+
+</body>
+</html>

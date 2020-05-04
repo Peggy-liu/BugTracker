@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>New user registration</title>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script
+	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="webjars/bootstrap/css/bootstrap.min.css">
+
+<script th:src="@{/username.js}"></script>
+<script th:src="@{/validate.js}"></script>
+</head>
+<body>
+	<h1>New User Registration Page</h1>
+	<form th:action="@{/user/register}" method="post" id="register">
+
+		Username <input type="text" name="username" id="username"><span
+			id="usernameError"></span><br /> Password <input type="password"
+			name="password" id="password"><br /> Confirmed Password <input
+			type="password" name="confirmed_password" id="confirmed_psd"><br />
+		Email Address <input type="email" name="email" id="email"><br />
+		<input type="submit" value="Sign up" id="submit">
+	</form>
+</body>
+</html>

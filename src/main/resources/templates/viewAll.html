@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+<title>ticket history</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/close.js}"></script>
+</head>
+<body>
+	<h1>Ticket history</h1>
+	<div th:replace="fragment/general.html::nav"></div>
+	<div>
+	<label for="ticket">Filter for ticket</label>
+	<select id="select">
+	<option value="all">All tickets</option>
+	<option value="solved">Solved tickets</option>
+	<option value="unsolved">Unsolved tickets</option>
+	</select>
+	</div>
+	
+	<table border=1>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Last Update Time</th>
+				<th>status</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="ticket:${tickets}">
+				<td th:text="${ticket.ID}" />
+				<td th:text="${ticket.title}" />
+				<td th:text="${ticket.time_updated}" />
+				<td class="status" th:text="${ticket.status}" />
+				<td><a th:href="@{/user/edit(id=${ticket.ID})}">Edit</a> <a
+					class='btn' th:content="${ticket.ID}">Close</a></td>
+			</tr>
+		</tbody>
+
+	</table>
+</body>
+<script th:src="@{/view.js}"></script>
+</html>
