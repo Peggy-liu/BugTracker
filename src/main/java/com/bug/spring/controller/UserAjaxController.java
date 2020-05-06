@@ -2,14 +2,13 @@ package com.bug.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bug.spring.dao.TicketRepository;
 import com.bug.spring.model.Response;
-import com.bug.spring.model.Status;
 import com.bug.spring.model.Ticket;
 import com.bug.spring.service.TicketService;
 import com.bug.spring.service.UserService;
@@ -25,14 +24,14 @@ public class UserAjaxController {
 	@Autowired
 	TicketService ticketService;
 	
-	@GetMapping("/user/checkName")
+	@GetMapping("/user/existed")
 	public Response nameCheck(@RequestParam("username")String username) {
 		Response result= new Response("Done", checkUsernameExist(username));
 		return result;
 	}
 	
 	
-	@PostMapping("/user/update")
+	@PutMapping("/ticket")
 	public Response update(@RequestBody Ticket ticket) {
 
 	ticketService.updateTicket(ticket);
@@ -40,8 +39,8 @@ public class UserAjaxController {
 		return result;
 	}
 	
-	@PostMapping("/user/close")
-	public Response closeTicket(@RequestParam("id") String ID) {
+	@PutMapping("/ticket/{id}")
+	public Response closeTicket(@PathVariable("id") String ID) {
 		ticketService.closeTicket(ID);
 		Response result = new Response("Done", true);
 		return result;

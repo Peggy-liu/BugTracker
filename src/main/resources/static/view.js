@@ -5,7 +5,6 @@ $(document).ready(function(){
 		dataset.hide();
 		
 		if(selection=="solved"){
-			alert("here");
 			    
 				dataset.filter(function(){
 					return $(this).find('.status').text()==="CLOSE";
@@ -14,9 +13,7 @@ $(document).ready(function(){
 				
 		}
 		
-		if(selection=="unsolved"){
-			alert("here");
-			    
+		if(selection=="unsolved"){		    
 				dataset.filter(function(){
 					return $(this).find('.status').text()==="OPEN";
 				}).show();
@@ -26,8 +23,6 @@ $(document).ready(function(){
 		if(selection=="all"){
 			dataset.show();
 		}
-		
-		
 
 	})
 });

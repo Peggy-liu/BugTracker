@@ -6,7 +6,7 @@ $(document).ready(function(){
 		$.ajax({
 			type:"GET",
 			contentType:"application/json",
-			url:"/user/checkName?username="+data,
+			url:"/user/existed?username="+data,
 			success:function(result){
 				if(result.status=="Done"){
 					if(result.data == true){

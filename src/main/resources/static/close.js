@@ -22,8 +22,8 @@ $(document).ready(function(){
 			var token = $('#_csrf').attr('content');
 			var header = $('#_csrf_header').attr('content');
 			$.ajax({
-				type:"POST",
-				url:"/user/close?id="+id,
+				type:"PUT",
+				url:"/ticket/"+id,
 				beforeSend: function(xhr) {
 		             xhr.setRequestHeader(header, token);
 		         },
