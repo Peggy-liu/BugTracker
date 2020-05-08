@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bug.spring.dao.TicketRepository;
 import com.bug.spring.model.Status;
 import com.bug.spring.model.Ticket;
 import com.bug.spring.security.PasswordEncoder;
@@ -67,34 +66,27 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/transfer")
-	public String createNewTicket(Authentication authentication, Ticket ticket) {
+	public String createNewTicket(Authentication authentication, Ticket ticket,Model model) {
 		ticket.setCreator(authentication.getName());
 		ticket.setStatus(Status.OPEN);
-		try{
+		
 			ticketService.createTicket(ticket);
 		
 			return "success_add";
-		}
-		catch(Exception e) {
-			return "error";
-		}
+
 		
 	}
 	
 	@GetMapping("/user/view")
 	public String getAll(Authentication auth, Model model) {
 		Ticket[] results = null;
-		try {
+		
 			results = ticketService.getAllTickets(auth.getName());
 			model.addAttribute("tickets",results);
 			System.out.println();
 			return "viewAll";
-		}
-		catch(Exception e) {
-			String msg = e.toString();
-			model.addAttribute("msg", msg);
-			return "error";
-		}
+		
+
 	}
 	
 	@GetMapping("/user/edit")
