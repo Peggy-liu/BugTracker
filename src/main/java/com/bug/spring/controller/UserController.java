@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.bug.spring.model.Status;
 import com.bug.spring.model.Ticket;
 import com.bug.spring.security.PasswordEncoder;
+import com.bug.spring.security.model.MyUserDetails;
 import com.bug.spring.security.model.Role;
 import com.bug.spring.security.model.User;
 import com.bug.spring.service.TicketService;
@@ -37,14 +41,25 @@ public class UserController {
 	@Autowired
 	PasswordEncoder encoder;
 	
-	@RequestMapping("/user/home")
-	public String greeting(HttpServletRequest request, Model model) {
-		Principal principal = request.getUserPrincipal();
-		String user = principal.getName();
+
 	
-		model.addAttribute("username", user);
+	@RequestMapping("/user/home")
+	public String oauthToHome(Authentication authToken, Model model) {
+		//form login
+		if(authToken instanceof OAuth2AuthenticationToken) {
+			System.out.println(authToken.getAuthorities());
+			OAuth2User user = (OAuth2User) authToken.getPrincipal();
+			model.addAttribute("username", user.getAttributes().get("name"));
+			model.addAttribute("attributes", user.getAttributes());
+		}
+		else {
+			MyUserDetails details = (MyUserDetails) authToken.getPrincipal();
+			model.addAttribute("username", details.getUsername());
+		}
+		
 		return "user_home";
-	}
+		
+	} 
 	
 	
 	@PostMapping("/user/register")

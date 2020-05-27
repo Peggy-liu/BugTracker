@@ -9,6 +9,7 @@ public class HomeController {
 
 	@GetMapping("/user/login")
 	public String userLogin() {
+		
 		return "UserLoginForm";
 	}
 	

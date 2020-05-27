@@ -16,5 +16,11 @@
    <span th:if="${param.error}">Wrong user or password</span> 
 </div>  
 <p><a th:href="@{/user/register}">Do not have an account? Sign up here!</a></p>
+<div>
+    With Facebook: <a th:href="@{/oauth2/authorization/facebook}">click here</a>
+  </div>
+  <div>
+    With Google: <a th:href="@{/oauth2/authorization/google}">click here</a>
+  </div>
 </body>  
 </html>

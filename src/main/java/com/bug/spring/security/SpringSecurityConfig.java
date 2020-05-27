@@ -9,10 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +18,7 @@ public class SpringSecurityConfig{
 	//we are using the same user detail service here
 	//expose beans for the use of spring security
 
+	
 	
 	@Autowired
 	PasswordEncoder encoder;
@@ -47,25 +45,36 @@ public class SpringSecurityConfig{
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http
-	          .antMatcher("/user/**")      
+	        .requestMatchers()
+	          .antMatchers("/user/**","/","/oauth2/authorization/*","/login/**")   
+	          .and()
 	          .authorizeRequests()
-	            .antMatchers("/user/register","/user/checkName").permitAll()
+	            .antMatchers("/user/register","/user/checkName","/", "/oauth2/authorization/*","/login").permitAll()
 	          	.anyRequest().hasAnyRole("USER", "ADMIN")
 
 	          .and()
 	          .formLogin()
 	          .loginPage("/user/login")
 	          .permitAll()           //have to add this otherwise will end up in endless redirected loop!
-	          .defaultSuccessUrl("/user/home")
+	          .defaultSuccessUrl("/user/home", true)
 	          .and()
 	          .logout()
 	          .permitAll()
 	          .logoutUrl("/user/logout")
 	          .logoutSuccessUrl("/logoutSuccess")
 	          .and()
-	          .exceptionHandling().accessDeniedPage("/accessDenied");
+	          .oauth2Login()
+	          .loginPage("/user/login")
+	          .permitAll()
+	          .defaultSuccessUrl("/user/home", true)
+	          .and()
+	          .exceptionHandling().accessDeniedPage("/accessDenied")
+	          .and()
+	          .headers()
+	          .httpStrictTransportSecurity()
+	          .includeSubDomains(true)
+	          .maxAgeInSeconds(31536000);
 	          
-	           
 	          
 	    }
 	}
@@ -78,6 +87,10 @@ public class SpringSecurityConfig{
 	        super();
 	    }
 
+	    /*
+	     * TODO: configure http redirection to https for non-secure needed website, eg. home page
+	     * For API URL, do not redirect automatically!
+	     */
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http
 	          .antMatcher("/admin/**")
@@ -94,9 +107,17 @@ public class SpringSecurityConfig{
 	          .logoutSuccessUrl("/logoutSuccess")
 	          .permitAll()
 	          .and()
-	          .exceptionHandling().accessDeniedPage("/accessDenied");
+	          .exceptionHandling().accessDeniedPage("/accessDenied")
+	          .and()
+	          .headers()
+	          .httpStrictTransportSecurity()
+	          .includeSubDomains(true)
+	          .maxAgeInSeconds(31536000)
+	          ;
 	          
-	          
+	     
+	      
+ 
 	    }
 	}
 }

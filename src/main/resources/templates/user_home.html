@@ -16,5 +16,10 @@
 		
 	</nav>
 	<div th:replace="fragment/general.html::logout"></div>
+	<div th:if="${attributes}">
+	<ul th:each= "attribute : ${attributes}">
+		<li><span th:text="${attribute.key}"></span>:<span th:text="${attribute.value}"></span></li>
+	</ul>
+	</div>
 </body>
 </html>
