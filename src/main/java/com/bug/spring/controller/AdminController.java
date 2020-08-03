@@ -36,7 +36,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/pdf")
-	public  ResponseEntity<InputStreamResource> generatePDF() {
+	public  ResponseEntity<?> generatePDF() {
 		List<User> users = userService.getAllUsers();
 		HttpHeaders header = new HttpHeaders();
 		header.add("Content-Disposition", "inline; filename=UserReport.pdf");

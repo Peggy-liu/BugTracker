@@ -11,11 +11,11 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-
 public class SSLConfig {
 
 	@Bean
 	public ServletWebServerFactory servletContainer() {
+	
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
 			@Override
 			protected void postProcessContext(Context context) {

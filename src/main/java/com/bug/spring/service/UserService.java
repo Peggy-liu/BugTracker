@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bug.spring.security.UserRepository;
+import com.bug.spring.dao.UserRepository;
 import com.bug.spring.security.model.Role;
 import com.bug.spring.security.model.User;
 
