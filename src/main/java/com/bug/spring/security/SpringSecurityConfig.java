@@ -10,9 +10,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -43,6 +46,26 @@ public class SpringSecurityConfig {
 		auth.setPasswordEncoder(encoder);
 		return auth;
 	}
+	
+	@Bean
+	public ClientRegistrationRepository clientRegisRepo() {
+		return new InMemoryClientRegistrationRepository(googleClient());
+	}
+	
+	private ClientRegistration googleClient() {
+		return CommonOAuth2Provider.GOOGLE.getBuilder("google")
+				.clientId("145326387317-35ogrism01borhg2ips0h7th5gfjq95f.apps.googleusercontent.com")
+				.clientSecret("33V8B0BBhdCfJaYnvJID8y1t")
+				.build();
+		
+	}
+	
+	private ClientRegistration facebookClient() {
+		return CommonOAuth2Provider.FACEBOOK.getBuilder("facebook")
+				.clientId("259742325383218")
+				.clientSecret("5823d689c91afeb437b8e559b2611e3a")
+				.build();
+	}
 
 	@Configuration
 	@Order(2)
@@ -58,11 +81,15 @@ public class SpringSecurityConfig {
 					.and().formLogin().loginPage("/user/login").permitAll() // have to add this otherwise will end up in
 																			// endless redirected loop!
 					.defaultSuccessUrl("/user/home", true).and().logout().permitAll().logoutUrl("/user/logout")
-					.logoutSuccessUrl("/logoutSuccess").and().oauth2Login().loginPage("/user/login").permitAll()
+					.logoutSuccessUrl("/logoutSuccess").and()
+					.oauth2Login().loginPage("/user/login").permitAll()
 					.defaultSuccessUrl("/user/home", true).and().exceptionHandling().accessDeniedPage("/accessDenied")
 					.and().headers().httpStrictTransportSecurity().includeSubDomains(true).maxAgeInSeconds(31536000);
 
 		}
+		
+		
+		
 	}
 
 	@Configuration
